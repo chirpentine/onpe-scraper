@@ -9,7 +9,6 @@ import lib
 parser = argparse.ArgumentParser()
 parser.add_argument('-a', help='Only download actas para envío al JEE', action='store_true')
 args = parser.parse_args()
-print(str(args.a))
 
 logging.basicConfig(level=logging.INFO)
 
