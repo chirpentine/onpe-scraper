@@ -8,18 +8,21 @@ import lib
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-a', help='Only download actas para envío al JEE', action='store_true')
+parser.add_argument('-n', help='Download specific acta(s)')
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.INFO)
 
 i = lib.nextI()
-if args.a or i is not None:
+if args.a or args.n is not None or i is not None:
     logging.info('running')
 
     toGet = None
     if args.a:
         logging.info('Building list of JEE actas...')
         toGet = lib.actasJEE()
+    elif args.n is not None:
+        toGet = [ int(x) for x in args.n.split(',') ]
     else:
         toGet = lib.ID_RANGE[lib.ID_RANGE.index(i):]
     errors = 0
