@@ -53,7 +53,7 @@ class ONPEClient:
     def setBaseUrl(self, baseUrl):
         urlmap = { 'v1': 'https://resultadoshistorico.onpe.gob.pe/v1/EG2021/mesas/detalle/',
                    'v2': 'https://api.resultadossep.eleccionesgenerales2021.pe/mesas/detalle/' }
-        self.baseUrl = urlmap['v2'] if baseUrl not in urlmap else urlmap[baseUrl]
+        self.baseUrl = baseUrl if baseUrl not in urlmap else urlmap[baseUrl]
 
     def __del__(self):
         self.d.quit()
