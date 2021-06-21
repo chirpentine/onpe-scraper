@@ -40,14 +40,20 @@ def actasJEE():
     return [ i for i in haveI() if 'JEE' in readActa(fnForI(i))['presidencial']['OBSERVACION_TXT'] ]
 
 class ONPEClient:
-    def __init__(self):
+    def __init__(self, baseUrl='v2'):
         fp = webdriver.FirefoxProfile()
         fp.set_preference('', False)
         self.d = webdriver.Firefox(firefox_profile=fp)
+        self.setBaseUrl(baseUrl)
 
     def getActa(self, i):
-        self.d.get('https://api.resultadossep.eleccionesgenerales2021.pe/mesas/detalle/%s?name=param' % fmtId(i))
+        self.d.get(self.baseUrl + ('%s?name=param' % fmtId(i)))
         return json.loads(self.d.find_element_by_tag_name('body').text)
+
+    def setBaseUrl(self, baseUrl):
+        urlmap = { 'v1': 'https://resultadoshistorico.onpe.gob.pe/v1/EG2021/mesas/detalle/',
+                   'v2': 'https://api.resultadossep.eleccionesgenerales2021.pe/mesas/detalle/' }
+        self.baseUrl = urlmap['v2'] if baseUrl not in urlmap else urlmap[baseUrl]
 
     def __del__(self):
         self.d.quit()
