@@ -10,19 +10,17 @@ parser.add_argument('-v', help='Download specific vuelta (v1, v2, or url base)',
 parser.add_argument('-b', help='Backend to use', default='ONPEClient', choices=[ 'ONPEClient', 'ONPEClientParallel' ])
 args = parser.parse_args()
 
-i = lib.nextI()
-if args.a or args.n is not None or i is not None:
-    logging.info('running')
+toGet = None
+if args.a:
+    logging.info('Building list of JEE actas...')
+    toGet = lib.actasJEE()
+elif args.n is not None:
+    toGet = [ int(x) for x in args.n.split(',') ]
+else:
+    toGet = lib.lackingActas()
 
-    toGet = None
-    if args.a:
-        logging.info('Building list of JEE actas...')
-        toGet = lib.actasJEE()
-    elif args.n is not None:
-        toGet = [ int(x) for x in args.n.split(',') ]
-    else:
-        toGet = lib.ID_RANGE[lib.ID_RANGE.index(i):]
-    errors = 0
+if len(toGet) > 0:
+    logging.info('running')
 
     c = eval('lib.' + args.b)(args.v, args.a)
 

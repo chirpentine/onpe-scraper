@@ -27,14 +27,8 @@ def fnForI(i):
 def iForFn(fn):
     return int(fn.split('.')[0])
 
-def nextI():
-    df = dataFiles()
-    if len(df) > 0:
-        lastID = iForFn(df[-1])
-        if lastID in ID_RANGE and ID_RANGE.index(lastID) + 1 < len(ID_RANGE):
-            return ID_RANGE[ID_RANGE.index(lastID) + 1]
-    else:
-        return ID_RANGE[0]
+def lackingActas():
+    return list(set(ID_RANGE).difference(set(haveI())))
 
 def readActa(fn):
     with open(fn, 'rb') as f:
