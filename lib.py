@@ -62,7 +62,9 @@ class ONPEClient:
     def setupWebdriver(self):
         fp = webdriver.FirefoxProfile()
         fp.set_preference('', False)
-        self.d = webdriver.Firefox(firefox_profile=fp)
+        o = webdriver.firefox.options.Options()
+        o.headless = True
+        self.d = webdriver.Firefox(firefox_profile=fp, options=o)
 
     def getList(self, l):
         logging.debug('ONPEClient(%s).getList(%s)', id(self), l[:5])
